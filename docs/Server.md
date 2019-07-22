@@ -198,7 +198,7 @@ fastify.get('/user/:username', (request, reply) => {
  ```js
 let i = 0
 const fastify = require('fastify')({
-  genReqId: function (req) { return req.headers['request-id'] || i++ }
+  genReqId: function (req) { return i++ }
 })
 ```
 
@@ -316,6 +316,14 @@ fastify.get('/', (request, reply) => {
   reply.log('World')
 })
 ```
+
+<a name="factory-return-503-on-closing"></a>
+### `return503OnClosing`
+
+调用 `close` 方法后返回 503 状态码。
+如果为 `false`，服务器会正常处理请求。
+
++ 默认值：`true`
 
 ## 实例
 
@@ -443,6 +451,7 @@ fastify.listen(3000, '0.0.0.0', (err, address) => {
 #### close
 `fastify.close(callback)`：调用这个函数来关闭服务器实例，并触发 [`'onClose'`](https://github.com/fastify/docs-chinese/blob/master/docs/Hooks.md#on-close) 钩子。<br>
 服务器会向所有新的请求发送 `503` 错误，并销毁它们。
+要改变这一行为，请见 [`return503OnClosing`](https://github.com/fastify/docs-chinese/blob/master/docs/Server.md#factory-return-503-on-closing)。
 
 如果无参调用，它会返回一个 Promise：
 
